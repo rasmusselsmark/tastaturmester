@@ -13,6 +13,7 @@ const Keyboard = (() => {
     let keyEls = new Map();   // code -> element
     let nextEl = null;
     let shiftEls = [];        // Shift keys (may be more than one)
+    let altGrEl = null;       // AltGr key (only present on DK layout)
 
     function svgHomeMark() {
         return document.createElement("span");
@@ -23,6 +24,7 @@ const Keyboard = (() => {
         root.innerHTML = "";
         keyEls.clear();
         shiftEls = [];
+        altGrEl = null;
 
         for (const row of layout.rows) {
             const rowEl = document.createElement("div");
@@ -48,6 +50,7 @@ const Keyboard = (() => {
                     if (k.code === "ShiftLeft" || k.code === "ShiftRight") {
                         shiftEls.push(el);
                     }
+                    if (k.label === "Alt Gr") altGrEl = el;
                 } else {
                     const shiftSpan = document.createElement("span");
                     shiftSpan.className = "shift-char";
@@ -58,6 +61,12 @@ const Keyboard = (() => {
                     if (k.code === "Space") el.classList.add("center");
                     el.appendChild(shiftSpan);
                     el.appendChild(mainSpan);
+                    if (k.altgr) {
+                        const altSpan = document.createElement("span");
+                        altSpan.className = "altgr-char";
+                        altSpan.textContent = k.altgr;
+                        el.appendChild(altSpan);
+                    }
                 }
 
                 rowEl.appendChild(el);
@@ -71,6 +80,7 @@ const Keyboard = (() => {
     function clearNext() {
         if (nextEl) nextEl.classList.remove("next");
         for (const s of shiftEls) s.classList.remove("next-shift");
+        if (altGrEl) altGrEl.classList.remove("next-shift");
         nextEl = null;
     }
 
@@ -88,6 +98,9 @@ const Keyboard = (() => {
             const preferred = shiftEls.find(s => s.getAttribute("data-code") === (preferRight ? "ShiftRight" : "ShiftLeft"));
             if (preferred) preferred.classList.add("next-shift");
             else for (const s of shiftEls) s.classList.add("next-shift");
+        }
+        if (entry.needsAltGr && altGrEl) {
+            altGrEl.classList.add("next-shift");
         }
     }
 

@@ -182,5 +182,42 @@ const LEVELS = [
         title: "Niveau 20 — Klassisk dansk",
         description: "Et uddrag fra H. C. Andersens eventyr. Det ultimative niveau.",
         generate: () => Math.random() < 0.5 ? HC_ANDERSEN : H_C_LONG
+    },
+    {
+        title: "Niveau 21 — Programmering",
+        description: "Programmeringstegn: parenteser, klammer, citationstegn, operatorer og semikolon. På dansk layout bruges Alt Gr til { } [ ] @.",
+        generate: () => {
+            const snippets = [
+                'if (x == 0) { return true; }',
+                'const arr = [1, 2, 3, 4];',
+                'let name = "Alice";',
+                "obj.key = 'value';",
+                'for (i = 0; i < n; i++) {}',
+                'func(a, b) => a + b * 2;',
+                'x != y && z >= 0;',
+                'result = (a - b) / (c + 1);',
+                '@Override public void run() {}',
+                '#include <stdio.h>',
+                '// TODO: fix bug in parser',
+                '<div class="btn">OK</div>',
+                'map = { "a": 1, "b": 2 };',
+                'return list[0] || null;',
+                'if (!ready) throw new Error("no");',
+                'user.age >= 18 ? "yes" : "no";',
+                'path = dir + "/" + file;',
+                'sum += arr[i] * 100;',
+                'while (n > 0) { n--; }',
+                'regex = /^[a-z]+$/;'
+            ];
+            const out = [];
+            const used = new Set();
+            while (out.length < 6 && used.size < snippets.length) {
+                const s = pick(snippets);
+                if (used.has(s)) continue;
+                used.add(s);
+                out.push(s);
+            }
+            return out.join(" ");
+        }
     }
 ];

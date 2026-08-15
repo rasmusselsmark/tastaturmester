@@ -23,12 +23,15 @@ const FINGER_NAMES_DA = {
     "r-pinky":  "højre lillefinger"
 };
 
-/* Helper builders keep the layout data compact and readable. */
+/* Helper builders keep the layout data compact and readable.
+   `opts.altgr` is the character produced when AltGr is held — used for
+   Danish `{`, `}`, `[`, `]`, `@`, ... which aren't reachable without AltGr. */
 function key(code, main, shift, finger, opts = {}) {
     return {
         code,
         main,
         shift: shift || "",
+        altgr: opts.altgr || "",
         finger,
         width: opts.width || 1,
         home: !!opts.home,
@@ -126,17 +129,17 @@ const LAYOUT_DK = {
         [
             key("Backquote",    "§", "½", "l-pinky"),
             key("Digit1",       "1", "!", "l-pinky"),
-            key("Digit2",       "2", '"', "l-ring"),
-            key("Digit3",       "3", "#", "l-middle"),
-            key("Digit4",       "4", "¤", "l-index"),
-            key("Digit5",       "5", "%", "l-index"),
+            key("Digit2",       "2", '"', "l-ring",  { altgr: "@" }),
+            key("Digit3",       "3", "#", "l-middle",{ altgr: "£" }),
+            key("Digit4",       "4", "¤", "l-index", { altgr: "$" }),
+            key("Digit5",       "5", "%", "l-index", { altgr: "€" }),
             key("Digit6",       "6", "&", "r-index"),
-            key("Digit7",       "7", "/", "r-index"),
-            key("Digit8",       "8", "(", "r-middle"),
-            key("Digit9",       "9", ")", "r-ring"),
-            key("Digit0",       "0", "=", "r-pinky"),
+            key("Digit7",       "7", "/", "r-index", { altgr: "{" }),
+            key("Digit8",       "8", "(", "r-middle",{ altgr: "[" }),
+            key("Digit9",       "9", ")", "r-ring",  { altgr: "]" }),
+            key("Digit0",       "0", "=", "r-pinky", { altgr: "}" }),
             key("Minus",        "+", "?", "r-pinky"),
-            key("Equal",        "´", "`", "r-pinky"),
+            key("Equal",        "´", "`", "r-pinky", { altgr: "|" }),
             key("Backspace",    "",  "",  "r-pinky", { width: 2, label: "⌫", special: true })
         ],
         [
@@ -172,7 +175,7 @@ const LAYOUT_DK = {
         ],
         [
             key("ShiftLeft",    "",  "",  "l-pinky", { width: 1.25, label: "Shift", special: true }),
-            key("IntlBackslash","<", ">", "l-pinky"),
+            key("IntlBackslash","<", ">", "l-pinky", { altgr: "\\" }),
             key("KeyZ",         "z", "Z", "l-pinky"),
             key("KeyX",         "x", "X", "l-ring"),
             key("KeyC",         "c", "C", "l-middle"),
@@ -202,7 +205,7 @@ const LAYOUTS = {
     dk: LAYOUT_DK
 };
 
-/* Build a lookup from character → {code, needsShift, finger}
+/* Build a lookup from character → {code, needsShift, needsAltGr, finger}
    so we can find where a target character lives on the current layout. */
 function buildCharMap(layout) {
     const map = new Map();
@@ -210,10 +213,13 @@ function buildCharMap(layout) {
         for (const k of row) {
             if (k.special) continue;
             if (k.main && !map.has(k.main)) {
-                map.set(k.main, { code: k.code, needsShift: false, finger: k.finger });
+                map.set(k.main, { code: k.code, needsShift: false, needsAltGr: false, finger: k.finger });
             }
             if (k.shift && !map.has(k.shift)) {
-                map.set(k.shift, { code: k.code, needsShift: true, finger: k.finger });
+                map.set(k.shift, { code: k.code, needsShift: true, needsAltGr: false, finger: k.finger });
+            }
+            if (k.altgr && !map.has(k.altgr)) {
+                map.set(k.altgr, { code: k.code, needsShift: false, needsAltGr: true, finger: k.finger });
             }
         }
     }
