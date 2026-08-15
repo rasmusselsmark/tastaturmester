@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tastaturmester — Lær at skrive på tastatur</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="top-bar">
+        <h1 class="site-title">Tastaturmester</h1>
+        <div class="controls">
+            <label class="control">
+                <span>Tastatur:</span>
+                <select id="layout-select" aria-label="Vælg tastaturlayout">
+                    <option value="dk">Dansk</option>
+                    <option value="us">Amerikansk</option>
+                </select>
+            </label>
+            <label class="control">
+                <span>Niveau:</span>
+                <select id="level-select" aria-label="Vælg sværhedsgrad"></select>
+            </label>
+            <button id="theme-toggle" class="icon-button" aria-label="Skift mellem lyst og mørkt tema" title="Skift tema">
+                <span id="theme-icon">☀</span>
+            </button>
+            <button id="sound-toggle" class="icon-button" aria-label="Slå lyd til eller fra" title="Skift lyd">
+                <span id="sound-icon">🔇</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="app">
+        <section class="level-info">
+            <h2 id="level-title">Niveau 1</h2>
+            <p id="level-description">Startposition: pegefingrene på F og J</p>
+            <p id="layout-warning" class="layout-warning hidden"></p>
+        </section>
+
+        <section class="stats-bar" aria-live="polite">
+            <div class="stat">
+                <span class="stat-label">Tid</span>
+                <span id="stat-time" class="stat-value">60</span>
+                <span class="stat-unit">sek</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Anslag/min</span>
+                <span id="stat-cpm" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Præcision</span>
+                <span id="stat-accuracy" class="stat-value">100</span>
+                <span class="stat-unit">%</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Fejl</span>
+                <span id="stat-errors" class="stat-value">0</span>
+            </div>
+        </section>
+
+        <section class="typing-area" tabindex="0" id="typing-area" aria-label="Skriveområde — start med at skrive">
+            <div id="text-display" class="text-display"></div>
+            <div id="hint" class="hint">Klik her og begynd at skrive for at starte</div>
+        </section>
+
+        <section class="finger-hint">
+            <div class="finger-label">
+                Brug: <span id="finger-name">—</span>
+            </div>
+            <div class="hands" id="hands-illustration" aria-hidden="true"></div>
+        </section>
+
+        <section class="keyboard-wrap">
+            <div id="keyboard" class="keyboard" aria-hidden="true"></div>
+        </section>
+    </main>
+
+    <div id="results-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="results-title">
+        <div class="results-card">
+            <h2 id="results-title">Resultat</h2>
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-label">Anslag pr. minut</div>
+                    <div class="result-value" id="result-cpm">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Ord pr. minut</div>
+                    <div class="result-value" id="result-wpm">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Præcision</div>
+                    <div class="result-value"><span id="result-accuracy">0</span>%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Rigtige anslag</div>
+                    <div class="result-value" id="result-correct">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Fejl</div>
+                    <div class="result-value" id="result-errors">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Bedste på niveau</div>
+                    <div class="result-value"><span id="result-best">0</span> APM</div>
+                </div>
+            </div>
+            <div class="results-actions">
+                <button id="btn-retry" class="btn primary">Prøv igen</button>
+                <button id="btn-next" class="btn">Næste niveau</button>
+                <button id="btn-close" class="btn ghost">Luk</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Tastaturmester — gratis, uden reklamer. Skift layout og niveau øverst.</p>
+    </footer>
+
+    <script src="js/layouts.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/keyboard.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
