@@ -11,7 +11,6 @@ Because this is a static website, you can run it with any simple local web serve
 From the project root:
 
 ```bash
-cd website
 python3 -m http.server 8000
 ```
 
