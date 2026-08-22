@@ -185,7 +185,7 @@ const LEVELS = [
     },
     {
         title: "Niveau 21 — Programmering",
-        description: "Programmeringstegn: parenteser, klammer, citationstegn, operatorer og semikolon. På dansk layout bruges Alt Gr til { } [ ] @.",
+        description: "Programmeringstegn: parenteser, citationstegn, operatorer og semikolon. På dansk layout bruges Alt Gr til { } [ ] @.",
         generate: () => {
             const snippets = [
                 'if (x == 0) { return true; }',
