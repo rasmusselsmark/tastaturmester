@@ -1,25 +1,27 @@
 # Tastaturmester
 
-Tastaturmester is a small browser-based typing trainer built with plain HTML, CSS, and JavaScript.
+Tastaturmester er et gratis website på dansk til at øve 10-finger tastatur system, bygget i ren HTML, CSS og JavaScript.
 
-## Run locally
+Findes online på https://tastaturmester.dk/, koden til siden kan du finde i dette repository.
 
-Because this is a static website, you can run it with any simple local web server.
+## Kør lokalt
 
-### Option 1: Python HTTP server (recommended)
+Siden er bygget med statisk HTML, så kan også køre lokalt.
 
-From the project root:
+### Option 1: Python HTTP server (anbefalet)
+
+Fra denne mappe:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open:
+Derefter åbn i browser:
 
 ```text
 http://localhost:8000
 ```
 
-### Option 2: Open directly in a browser
+### Option 2: Åbn direkte i din browser
 
-You can also open `website/index.html` directly in a browser, but using a local web server is recommended because it behaves more consistently and avoids browser file-access issues.
+Du kan også åbne filen `index.html` direkte fra denne mappe i en browser, men det anbefales at bruge en lokal web server for at undgå f.eks. problemer med lokal fil-adgang fra browser.
