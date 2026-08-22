@@ -4,9 +4,12 @@ Tastaturmester er et gratis website på dansk til at øve 10-finger tastatur sys
 
 Findes online på https://tastaturmester.dk/, koden til siden kan du finde i dette repository.
 
+En særlig funktionalitet i denne tastatur-træner, er muligheden for at træne typiske tegn der benyttes teil programmering:
+![Programmering](docs/images/programming.png)
+
 ## Kør lokalt
 
-Siden er bygget med statisk HTML, så kan også køre lokalt.
+Siden er bygget med statisk HTML, så det er muligt at køre siden lokalt, f.eks. ved udvikling.
 
 ### Option 1: Python HTTP server (anbefalet)
 
@@ -16,11 +19,7 @@ Fra denne mappe:
 python3 -m http.server 8000
 ```
 
-Derefter åbn i browser:
-
-```text
-http://localhost:8000
-```
+Åbn derefter http://localhost:8000 i din browser.
 
 ### Option 2: Åbn direkte i din browser
 
