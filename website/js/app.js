@@ -2,7 +2,6 @@
    Owns the game state, keyboard event handling, timer and metrics. */
 
 const App = (() => {
-    const ROUND_SECONDS = 60;
     const STORAGE_KEY_PREFIX = "tastaturmester.best.";
     const STORAGE_KEY_LAYOUT = "tastaturmester.layout";
     const STORAGE_KEY_SOUND  = "tastaturmester.sound";
@@ -47,6 +46,7 @@ const App = (() => {
         dom.resultCpm    = document.getElementById("result-cpm");
         dom.resultWpm    = document.getElementById("result-wpm");
         dom.resultAcc    = document.getElementById("result-accuracy");
+        dom.resultTime   = document.getElementById("result-time");
         dom.resultCor    = document.getElementById("result-correct");
         dom.resultErr    = document.getElementById("result-errors");
         dom.resultBest   = document.getElementById("result-best");
@@ -148,7 +148,7 @@ const App = (() => {
 
         renderText();
         updateStatsDisplay();
-        dom.statTime.textContent = String(ROUND_SECONDS);
+        updateTimeDisplay();
         dom.hint.classList.remove("hidden");
         dom.hint.textContent = "Klik her og begynd at skrive for at starte";
         updateLayoutWarning();
@@ -198,7 +198,10 @@ const App = (() => {
             spans[i].classList.remove("current");
         }
         if (state.pos < spans.length) {
-            spans[state.pos].classList.add("current");
+            const el = spans[state.pos];
+            el.classList.add("current");
+            // Long texts run past the fold — keep the cursor in view.
+            el.scrollIntoView({ block: "nearest", inline: "nearest" });
         }
     }
 
@@ -286,11 +289,19 @@ const App = (() => {
     }
 
     function tick() {
-        const elapsedSec = (performance.now() - state.startTs) / 1000;
-        const remaining = Math.max(0, ROUND_SECONDS - elapsedSec);
-        dom.statTime.textContent = Math.ceil(remaining).toString();
+        updateTimeDisplay();
         updateStatsDisplay();
-        if (remaining <= 0) finish();
+    }
+
+    /* Elapsed seconds — the round runs until the whole text is typed. */
+    function elapsedSeconds() {
+        if (!state.started) return 0;
+        const endTs = state.finished ? state.endTs : performance.now();
+        return (endTs - state.startTs) / 1000;
+    }
+
+    function updateTimeDisplay() {
+        dom.statTime.textContent = String(Math.floor(elapsedSeconds()));
     }
 
     function stopTimer() {
@@ -326,6 +337,7 @@ const App = (() => {
         state.finished = true;
         state.endTs = performance.now();
         stopTimer();
+        updateTimeDisplay();
         Sound.ding();
         showResults();
     }
@@ -342,6 +354,7 @@ const App = (() => {
         dom.resultCpm.textContent = String(cpm);
         dom.resultWpm.textContent = String(wpm);
         dom.resultAcc.textContent = String(acc);
+        dom.resultTime.textContent = String(Math.round(elapsedSeconds()));
         dom.resultCor.textContent = String(state.correctCount);
         dom.resultErr.textContent = String(state.errorCount);
         dom.resultBest.textContent = String(best);
