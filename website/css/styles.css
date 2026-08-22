@@ -1,6 +1,8 @@
 /* Tastaturmester — styles */
 
 :root {
+    color-scheme: light dark;
+
     --bg: #f5f6f8;
     --surface: #ffffff;
     --surface-alt: #eef0f4;
@@ -26,19 +28,22 @@
     --f-r-pinky: #d63384;
 }
 
-[data-theme="dark"] {
-    --bg: #14161c;
-    --surface: #1c1f28;
-    --surface-alt: #262a35;
-    --border: #333846;
-    --text: #eaecf1;
-    --text-muted: #99a0af;
-    --accent: #6d94ff;
-    --accent-soft: #2a3557;
-    --success: #4bd18a;
-    --error: #ff6b6b;
-    --error-soft: #4a1f22;
-    --pending: #4a4f5c;
+/* Dark mode follows the system/browser preference. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #14161c;
+        --surface: #1c1f28;
+        --surface-alt: #262a35;
+        --border: #333846;
+        --text: #eaecf1;
+        --text-muted: #99a0af;
+        --accent: #6d94ff;
+        --accent-soft: #2a3557;
+        --success: #4bd18a;
+        --error: #ff6b6b;
+        --error-soft: #4a1f22;
+        --pending: #4a4f5c;
+    }
 }
 
 * { box-sizing: border-box; }

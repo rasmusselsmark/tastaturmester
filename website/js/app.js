@@ -5,7 +5,6 @@ const App = (() => {
     const ROUND_SECONDS = 60;
     const STORAGE_KEY_PREFIX = "tastaturmester.best.";
     const STORAGE_KEY_LAYOUT = "tastaturmester.layout";
-    const STORAGE_KEY_THEME  = "tastaturmester.theme";
     const STORAGE_KEY_SOUND  = "tastaturmester.sound";
     const STORAGE_KEY_LEVEL  = "tastaturmester.level";
 
@@ -31,8 +30,6 @@ const App = (() => {
     function init() {
         dom.layoutSelect = document.getElementById("layout-select");
         dom.levelSelect  = document.getElementById("level-select");
-        dom.themeToggle  = document.getElementById("theme-toggle");
-        dom.themeIcon    = document.getElementById("theme-icon");
         dom.soundToggle  = document.getElementById("sound-toggle");
         dom.soundIcon    = document.getElementById("sound-icon");
         dom.levelTitle   = document.getElementById("level-title");
@@ -87,9 +84,6 @@ const App = (() => {
         }
         dom.levelSelect.value = String(state.levelIdx);
 
-        const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || "light";
-        setTheme(savedTheme);
-
         const savedSound = localStorage.getItem(STORAGE_KEY_SOUND) === "on";
         setSound(savedSound);
     }
@@ -97,10 +91,6 @@ const App = (() => {
     function wireEvents() {
         dom.layoutSelect.addEventListener("change", (e) => setLayout(e.target.value));
         dom.levelSelect.addEventListener("change", (e) => setLevel(parseInt(e.target.value, 10)));
-        dom.themeToggle.addEventListener("click", () => {
-            const cur = document.documentElement.getAttribute("data-theme") || "light";
-            setTheme(cur === "light" ? "dark" : "light");
-        });
         dom.soundToggle.addEventListener("click", () => setSound(!Sound.isEnabled()));
 
         dom.typingArea.addEventListener("click", () => dom.typingArea.focus());
@@ -118,12 +108,6 @@ const App = (() => {
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape" && !dom.overlay.classList.contains("hidden")) closeOverlay();
         });
-    }
-
-    function setTheme(theme) {
-        document.documentElement.setAttribute("data-theme", theme);
-        localStorage.setItem(STORAGE_KEY_THEME, theme);
-        dom.themeIcon.textContent = theme === "dark" ? "☾" : "☀";
     }
 
     function setSound(on) {
