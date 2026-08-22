@@ -241,6 +241,9 @@ const App = (() => {
     function onKeyDown(e) {
         if (state.finished) return;
 
+        // Ignore meta keys (Cmd, Win, ...), otherwise cannot e.g. switch tabs
+        if (e.metaKey) return;
+
         // Ignore pure modifier presses.
         if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(e.key)) return;
 
